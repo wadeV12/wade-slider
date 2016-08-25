@@ -1,0 +1,30 @@
+
+@import "compass/reset";
+
+.wade-slider {
+  position: relative;
+  overflow: hidden;
+}
+
+.wade-slider__outer {
+  transition: transform 1s;
+  &:before,
+  &:after {
+    content: "";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.wade-slider__outer:after {
+  clear: both;
+}
+
+.wade-slider__item {
+  float: left;
+  img {
+    display: block;
+  }
+}
