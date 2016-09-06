@@ -22,8 +22,8 @@
 
         //Slider elements
         var $slider = $(_this),
-            $sliderOuter =  $slider.find('.wade-slider__outer'),
-            $sliderItem = $slider.find('.wade-slider__item');
+            $sliderOuter,
+            $sliderItem;
 
         if (data.intialized == true) {return;}
 
@@ -33,6 +33,8 @@
         var init = function () {
 
             data.settings = $.extend({}, defaults, options);
+
+            buildSlider();
 
             //if we want to show more slides then there are slides exist
             if (data.settings.slidesToShow > $sliderItem.length) {
@@ -44,9 +46,6 @@
 
             //calculate layout of slider
             doMath();
-
-            //create arrows
-            buildArrows();
 
             //add transition
             applyTransition();
@@ -67,23 +66,38 @@
             }
         };
 
+        var buildSlider = function() {
+            var slideIndex = 0;
+
+            $slider.addClass('wade-slider');
+            $sliderItem = $slider.children();
+            $sliderOuter = $sliderItem.wrapAll('<div class="wade-slider__outer">').parent();
+
+            $sliderItem.each(function() {
+                $(this)
+                    .addClass('wade-slider__item')
+                    .attr('data-wade-index', slideIndex);
+
+                slideIndex++;
+            });
+
+            //create arrows
+            buildArrows();
+        };
+
         /**
          * Calculate slider size
          */
         var doMath = function () {
-            var slideIndex = 0;
 
             data.settings.slideWidth = Math.ceil($slider.width() / data.settings.slidesToShow);
             data.settings.sliderOuterWidth = Math.ceil(data.settings.slideWidth * $sliderItem.length);
 
             $sliderItem.each(function() {
-               $(this)
-                   .attr('data-index', slideIndex)
-                   .css({
+               $(this).css({
                        width: data.settings.slideWidth
-                   });
+               });
 
-               slideIndex++;
             });
 
             $sliderOuter.css({
