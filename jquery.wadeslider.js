@@ -4,7 +4,7 @@
     var defaults = {
         slidesToShow: 1,
         autoplay: true,
-        interval: 1000,
+        interval: 3000,
         speed: 1000,
         arrows: true,
         arrowPrev: '<button class="wade-slider__arrow wade-slider__arrow--left"></button>',
@@ -60,7 +60,6 @@
             autoplay();
 
             //set init slider flag
-            //TODO: check for errors before init
             data.intialized = true;
 
             if (data.intialized) {
@@ -72,13 +71,19 @@
          * Calculate slider size
          */
         var doMath = function () {
+            var slideIndex = 0;
+
             data.settings.slideWidth = Math.ceil($slider.width() / data.settings.slidesToShow);
             data.settings.sliderOuterWidth = Math.ceil(data.settings.slideWidth * $sliderItem.length);
 
             $sliderItem.each(function() {
-               $(this).css({
-                   width: data.settings.slideWidth
-               })
+               $(this)
+                   .attr('data-index', slideIndex)
+                   .css({
+                       width: data.settings.slideWidth
+                   });
+
+               slideIndex++;
             });
 
             $sliderOuter.css({
